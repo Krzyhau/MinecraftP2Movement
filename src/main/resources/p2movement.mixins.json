@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "krzyhau.p2movement.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "Portal2MovementMixin",
+    "ClShowposMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

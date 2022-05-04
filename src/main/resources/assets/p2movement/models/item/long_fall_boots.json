@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "p2movement:item/long_fall_boots"
+  }
+}

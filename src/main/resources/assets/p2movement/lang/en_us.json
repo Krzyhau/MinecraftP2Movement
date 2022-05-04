@@ -1,0 +1,5 @@
+{
+    "item.p2movement.long_fall_boots": "Long Fall Boots",
+    "item.p2movement.long_fall_boots.tooltip": "Gives wearer a Portal 2-styled movement.",
+    "enchantment.p2movement.cl_showpos": "cl_showpos"
+}
