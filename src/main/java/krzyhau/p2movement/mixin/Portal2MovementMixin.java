@@ -1,20 +1,22 @@
 package krzyhau.p2movement.mixin;
 
+import krzyhau.p2movement.ModMain;
+import krzyhau.p2movement.Portal2Movement;
+import krzyhau.p2movement.config.P2MovementConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
-
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import krzyhau.p2movement.Portal2Movement;
-
 @Mixin(PlayerEntity.class)
-public class Portal2MovementMixin {
+public abstract class Portal2MovementMixin {
 
     // override travel function to allow custom movement
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
@@ -22,6 +24,8 @@ public class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
+
+            Portal2Movement.config = P2MovementConfig.get();
 
             Portal2Movement.applyMovementInput(self, movementInput);
 
@@ -54,7 +58,7 @@ public class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
-            if(source.isFromFalling()) {
+            if (source == DamageSource.FALL) {
                 cir.setReturnValue(true);
             }
         }

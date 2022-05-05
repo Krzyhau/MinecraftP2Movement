@@ -1,31 +1,32 @@
 package krzyhau.p2movement;
 
+import krzyhau.p2movement.config.P2MovementConfig;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public class Portal2Movement {
-
     public static final double TICKRATE = 20;
-    public static final double TICKTIME = 1.0 / TICKRATE;
+    public static final double TICKTIME = 1 / TICKRATE;
     // scale hammer units into minecraft units.
     // technically the scale should be 40 (chell's height / steve's height, 72/1.8)
     // but that makes jumps too small for minecraft world, so I'm scaling everything up a little bit more.
-    public static final double UNIT_SCALE = 38.0;
-    public static final double MOVE_SCALAR = 1.0 / (UNIT_SCALE * TICKRATE);
-
-    public static final double STOP_SPEED = 100.0 * MOVE_SCALAR;
-    public static final double MAX_SPEED = 175.0 * MOVE_SCALAR;
-    public static final double MAX_AIR_SPEED = 60.0 * MOVE_SCALAR;
-    public static final double FORWARD_SPEED = 175.0 * MOVE_SCALAR;
-    public static final double SIDE_SPEED = 175.0 * MOVE_SCALAR;
-    public static final double FRICTION = 4.0;
-    public static final double ACCELERATE = 10.0;
-    public static final double AIRACCELERATE = 5.0;
+    public static final double UNIT_SCALE = 38;
+    public static final double MOVE_SCALAR = 1 / (UNIT_SCALE * TICKRATE);
+    public static final double FORWARD_SPEED = 175 * MOVE_SCALAR;
+    public static final double SIDE_SPEED = 175 * MOVE_SCALAR;
     public static final double AIR_CONTROL_LIMIT = 300 * MOVE_SCALAR;
-    public static final double GRAVITY = 600 * MOVE_SCALAR;
-    public static final double JUMP_FORCE = Math.sqrt(2.0 * GRAVITY * 45.0 * MOVE_SCALAR);
-    public static final double SPEED_CAP = 3600 * MOVE_SCALAR;
+
+    public static P2MovementConfig config = P2MovementConfig.get();
+    public static double STOP_SPEED = config.STOP_SPEED * MOVE_SCALAR;
+    public static double MAX_SPEED = config.MAX_SPEED * MOVE_SCALAR;
+    public static double MAX_AIR_SPEED = config.MAX_AIR_SPEED * MOVE_SCALAR;
+    public static double GRAVITY = config.GRAVITY * MOVE_SCALAR;
+    public static double JUMP_FORCE = Math.sqrt(2 * GRAVITY * 45 * MOVE_SCALAR);
+    public static double SPEED_CAP = config.SPEED_CAP * MOVE_SCALAR;
+    public static double FRICTION = config.FRICTION;
+    public static double ACCELERATE = config.ACCELERATE;
+    public static double AIRACCELERATE = config.AIRACCELERATE;
 
     public static boolean shouldUseCustomMovement(PlayerEntity pe) {
         // check if we can move at all
@@ -33,15 +34,12 @@ public class Portal2Movement {
             return false;
 
         // we can do custom movement only if our current movement is regular
-        if (pe.isSwimming() || pe.getAbilities().flying || pe.hasVehicle()
-        || pe.isFallFlying() || pe.isTouchingWater() || pe.isInLava() || pe.isClimbing())
+        if (pe.isSwimming() || pe.abilities.flying || pe.hasVehicle()
+                || pe.isFallFlying() || pe.isTouchingWater() || pe.isInLava() || pe.isClimbing())
             return false;
 
         // long fall boots are required to be worn for custom movement
-        if (!pe.getEquippedStack(EquipmentSlot.FEET).isOf(ModRegister.LONG_FALL_BOOTS))
-            return false;
-
-        return true;
+        return pe.getEquippedStack(EquipmentSlot.FEET).getItem() == (ModMain.LONG_FALL_BOOTS);
     }
 
     // used for slowfly effect
@@ -61,7 +59,7 @@ public class Portal2Movement {
 
         if (pe.isOnGround()) {
             if (vel2d.length() >= STOP_SPEED) {
-                vel = vel.multiply(1.0 - TICKTIME * friction);
+                vel = vel.multiply(1 - TICKTIME * friction);
             } else if (vel2d.length() >= Math.max(0.1f * MOVE_SCALAR, TICKTIME * STOP_SPEED * friction)) {
                 vel = vel.subtract(vel2d.normalize().multiply(TICKTIME * STOP_SPEED * friction));
             } else {
@@ -80,14 +78,14 @@ public class Portal2Movement {
         Vec3d wishDir = movementInput.normalize();
 
         if (!pe.isOnGround()) {
-            if (Math.abs(pe.getPitch()) >= 30.0f) {
-                double z = wishDir.z * Math.cos(Math.toRadians((pe.getPitch())));
+            if (Math.abs(pe.pitch) >= 30f) {
+                double z = wishDir.z * Math.cos(Math.toRadians((pe.pitch)));
                 wishDir = new Vec3d(wishDir.x, wishDir.y, z);
             }
         }
 
-        double cosYaw = Math.cos(Math.toRadians(pe.getYaw()));
-        double sinYaw = Math.sin(Math.toRadians(pe.getYaw()));
+        double cosYaw = Math.cos(Math.toRadians(pe.yaw));
+        double sinYaw = Math.sin(Math.toRadians(pe.yaw));
         wishDir = new Vec3d(
                 cosYaw * wishDir.x - sinYaw * wishDir.z,
                 wishDir.y,
@@ -107,17 +105,15 @@ public class Portal2Movement {
     }
 
     public static double getMaxSpeed(PlayerEntity pe, Vec3d wishDir, boolean notAired) {
-        double duckMultiplier = (pe.isOnGround() && pe.isSneaking()) ? (1.0 / 3.0) : 1.0;
+        double duckMultiplier = (pe.isOnGround() && pe.isSneaking()) ? (1.0 / 3.0) : 1;
         wishDir = wishDir.multiply(MAX_SPEED);
         double maxSpeed = Math.min(MAX_SPEED, wishDir.length()) * duckMultiplier;
-        double maxAiredSpeed = (pe.isOnGround() || notAired) ? maxSpeed : Math.min(MAX_AIR_SPEED, maxSpeed);
-        return maxAiredSpeed;
+        return (pe.isOnGround() || notAired) ? maxSpeed : Math.min(MAX_AIR_SPEED, maxSpeed);
     }
 
     public static double getMaxAccel(PlayerEntity pe, Vec3d wishDir) {
         double accel = (pe.isOnGround()) ? ACCELERATE : AIRACCELERATE;
-        double realAccel = getPlayerFriction(pe) * TICKTIME * getMaxSpeed(pe, wishDir, true) * accel;
-        return realAccel;
+        return getPlayerFriction(pe) * TICKTIME * getMaxSpeed(pe, wishDir, true) * accel;
     }
 
     public static void applyGravity(PlayerEntity pe) {
@@ -172,7 +168,7 @@ public class Portal2Movement {
         pe.setOnGround(false);
 
         Vec3d vel = pe.getVelocity();
-        if(vel.y < JUMP_FORCE) vel = new Vec3d(vel.x,JUMP_FORCE,vel.z);
+        if (vel.y < JUMP_FORCE) vel = new Vec3d(vel.x, JUMP_FORCE, vel.z);
         pe.setVelocity(vel);
     }
 }

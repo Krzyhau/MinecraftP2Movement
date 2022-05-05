@@ -5,17 +5,17 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class ClShowposEnchantment extends Enchantment{
+public class ClShowposEnchantment extends Enchantment {
 
     protected ClShowposEnchantment() {
-        super(Enchantment.Rarity.COMMON, EnchantmentTarget.ARMOR_FEET, new EquipmentSlot[] { EquipmentSlot.FEET });
+        super(Enchantment.Rarity.COMMON, EnchantmentTarget.ARMOR_FEET, new EquipmentSlot[]{EquipmentSlot.FEET});
     }
 
     @Override
     public int getMinPower(int level) {
         return 1;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 1;
@@ -23,7 +23,7 @@ public class ClShowposEnchantment extends Enchantment{
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.isOf(ModRegister.LONG_FALL_BOOTS);
+        return stack.getItem() == (ModMain.LONG_FALL_BOOTS);
     }
 
     @Override

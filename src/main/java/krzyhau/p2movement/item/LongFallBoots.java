@@ -1,7 +1,6 @@
-package krzyhau.p2movement;
+package krzyhau.p2movement.item;
 
-import java.util.List;
-
+import krzyhau.p2movement.ModMain;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
@@ -13,10 +12,12 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
-public class LongFallBoots extends ArmorItem{
+import java.util.List;
+
+public class LongFallBoots extends ArmorItem {
 
     public LongFallBoots() {
-        super(ModRegister.LONG_FALL_BOOTS_MATERIAL, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
+        super(ModMain.LONG_FALL_BOOTS_MATERIAL, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
     }
 
     @Override

@@ -1,5 +1,13 @@
 {
-    "item.p2movement.long_fall_boots": "Long Fall Boots",
-    "item.p2movement.long_fall_boots.tooltip": "Gives wearer a Portal 2-styled movement.",
-    "enchantment.p2movement.cl_showpos": "cl_showpos"
+  "item.p2movement.long_fall_boots": "Long Fall Boots",
+  "item.p2movement.long_fall_boots.tooltip": "Gives wearer a Portal 2-styled movement.",
+  "enchantment.p2movement.cl_showpos": "cl_showpos",
+  "text.autoconfig.p2movement.option.STOP_SPEED": "Stop Speed",
+  "text.autoconfig.p2movement.option.MAX_SPEED": "Max Speed",
+  "text.autoconfig.p2movement.option.MAX_AIR_SPEED": "Max Air Speed",
+  "text.autoconfig.p2movement.option.GRAVITY": "Gravity",
+  "text.autoconfig.p2movement.option.SPEED_CAP": "Speed Cap",
+  "text.autoconfig.p2movement.option.FRICTION": "Friction",
+  "text.autoconfig.p2movement.option.ACCELERATE": "Accelerate",
+  "text.autoconfig.p2movement.option.AIRACCELERATE": "Air Accelerate"
 }
