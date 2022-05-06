@@ -20,6 +20,7 @@ public class Portal2Movement {
 
     public P2MovementConfig config;
 
+    // fuck static
     public double STOP_SPEED;
     public double MAX_SPEED;
     public double MAX_AIR_SPEED;
