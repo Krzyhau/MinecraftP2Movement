@@ -3,6 +3,7 @@ package krzyhau.p2movement.mixin;
 import krzyhau.p2movement.ModMain;
 import krzyhau.p2movement.Portal2Movement;
 import krzyhau.p2movement.config.P2MovementConfig;
+import net.minecraft.entity.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.MovementType;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
-public abstract class Portal2MovementMixin {
+public abstract class Portal2MovementMixin extends LivingEntity {
 
     // override travel function to allow custom movement
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
@@ -24,10 +25,11 @@ public abstract class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
+            Portal2Movement p2Movement = new Portal2Movement();
 
-            Portal2Movement.config = P2MovementConfig.get();
-
-            Portal2Movement.applyMovementInput(self, movementInput);
+            p2Movement.config = P2MovementConfig.get();
+            
+            p2Movement.applyMovementInput(self, movementInput);
 
             Vec3d oldPos = self.getPos();
 
@@ -47,7 +49,7 @@ public abstract class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
-            Portal2Movement.jump(self);
+            new Portal2Movement().jump(self);
             ci.cancel();
         }
     }
