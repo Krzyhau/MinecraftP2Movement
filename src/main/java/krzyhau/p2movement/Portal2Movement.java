@@ -17,16 +17,32 @@ public class Portal2Movement {
     public static final double SIDE_SPEED = 175 * MOVE_SCALAR;
     public static final double AIR_CONTROL_LIMIT = 300 * MOVE_SCALAR;
 
-    public static P2MovementConfig config = P2MovementConfig.get();
-    public static double STOP_SPEED = config.STOP_SPEED * MOVE_SCALAR;
-    public static double MAX_SPEED = config.MAX_SPEED * MOVE_SCALAR;
-    public static double MAX_AIR_SPEED = config.MAX_AIR_SPEED * MOVE_SCALAR;
-    public static double GRAVITY = config.GRAVITY * MOVE_SCALAR;
-    public static double JUMP_FORCE = Math.sqrt(2 * GRAVITY * 45 * MOVE_SCALAR);
-    public static double SPEED_CAP = config.SPEED_CAP * MOVE_SCALAR;
-    public static double FRICTION = config.FRICTION;
-    public static double ACCELERATE = config.ACCELERATE;
-    public static double AIRACCELERATE = config.AIRACCELERATE;
+
+    public P2MovementConfig config;
+
+    public double STOP_SPEED;
+    public double MAX_SPEED;
+    public double MAX_AIR_SPEED;
+    public double GRAVITY;
+    public double JUMP_FORCE;
+    public double SPEED_CAP;
+    public double FRICTION;
+    public double ACCELERATE;
+    public double AIRACCELERATE;
+
+    public Portal2Movement() {
+        P2MovementConfig config = P2MovementConfig.get();
+
+        STOP_SPEED = config.STOP_SPEED * MOVE_SCALAR;
+        MAX_SPEED = config.MAX_SPEED * MOVE_SCALAR;
+        MAX_AIR_SPEED = config.MAX_AIR_SPEED * MOVE_SCALAR;
+        GRAVITY = config.GRAVITY * MOVE_SCALAR;
+        JUMP_FORCE = Math.sqrt(2 * GRAVITY * 45 * MOVE_SCALAR);
+        SPEED_CAP = config.SPEED_CAP * MOVE_SCALAR;
+        FRICTION = config.FRICTION;
+        ACCELERATE = config.ACCELERATE;
+        AIRACCELERATE = config.AIRACCELERATE;
+    }
 
     public static boolean shouldUseCustomMovement(PlayerEntity pe) {
         // check if we can move at all
@@ -43,7 +59,7 @@ public class Portal2Movement {
     }
 
     // used for slowfly effect
-    public static double getPlayerFriction(PlayerEntity pe) {
+    public double getPlayerFriction(PlayerEntity pe) {
         double friction = 1;
         if (!pe.isOnGround() && pe.getVelocity().y < 0.1875 && pe.getVelocity().y > 0) {
             friction *= 0.25;
@@ -51,7 +67,7 @@ public class Portal2Movement {
         return friction;
     }
 
-    public static void applyFriction(PlayerEntity pe) {
+    public void applyFriction(PlayerEntity pe) {
         double friction = FRICTION * getPlayerFriction(pe);
 
         Vec3d vel = pe.getVelocity();
@@ -74,7 +90,7 @@ public class Portal2Movement {
         pe.setVelocity(vel);
     }
 
-    public static Vec3d createWishDir(PlayerEntity pe, Vec3d movementInput) {
+    public Vec3d createWishDir(PlayerEntity pe, Vec3d movementInput) {
         Vec3d wishDir = movementInput.normalize();
 
         if (!pe.isOnGround()) {
@@ -104,23 +120,23 @@ public class Portal2Movement {
         return wishDir;
     }
 
-    public static double getMaxSpeed(PlayerEntity pe, Vec3d wishDir, boolean notAired) {
+    public double getMaxSpeed(PlayerEntity pe, Vec3d wishDir, boolean notAired) {
         double duckMultiplier = (pe.isOnGround() && pe.isSneaking()) ? (1.0 / 3.0) : 1;
         wishDir = wishDir.multiply(MAX_SPEED);
         double maxSpeed = Math.min(MAX_SPEED, wishDir.length()) * duckMultiplier;
         return (pe.isOnGround() || notAired) ? maxSpeed : Math.min(MAX_AIR_SPEED, maxSpeed);
     }
 
-    public static double getMaxAccel(PlayerEntity pe, Vec3d wishDir) {
+    public double getMaxAccel(PlayerEntity pe, Vec3d wishDir) {
         double accel = (pe.isOnGround()) ? ACCELERATE : AIRACCELERATE;
         return getPlayerFriction(pe) * TICKTIME * getMaxSpeed(pe, wishDir, true) * accel;
     }
 
-    public static void applyGravity(PlayerEntity pe) {
+    public void applyGravity(PlayerEntity pe) {
         pe.setVelocity(pe.getVelocity().add(0, -GRAVITY * TICKTIME, 0));
     }
 
-    public static void clampVelocity(PlayerEntity pe) {
+    public void clampVelocity(PlayerEntity pe) {
         double velX = pe.getVelocity().x;
         double velY = pe.getVelocity().y;
         double velZ = pe.getVelocity().z;
@@ -138,7 +154,7 @@ public class Portal2Movement {
         pe.setVelocity(velX, velY, velZ);
     }
 
-    public static void applyMovementInput(PlayerEntity pe, Vec3d movementInput) {
+    public void applyMovementInput(PlayerEntity pe, Vec3d movementInput) {
         pe.setSprinting(false);
 
         applyGravity(pe);
@@ -164,7 +180,7 @@ public class Portal2Movement {
         clampVelocity(pe);
     }
 
-    public static void jump(PlayerEntity pe) {
+    public void jump(PlayerEntity pe) {
         pe.setOnGround(false);
 
         Vec3d vel = pe.getVelocity();
