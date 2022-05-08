@@ -23,7 +23,7 @@ public class ClShowposEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() == (ModMain.LONG_FALL_BOOTS);
+        return stack.getItem() == (ModRegister.LONG_FALL_BOOTS);
     }
 
     @Override

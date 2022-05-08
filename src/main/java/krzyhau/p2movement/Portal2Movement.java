@@ -56,7 +56,7 @@ public class Portal2Movement {
             return false;
 
         // long fall boots are required to be worn for custom movement
-        return pe.getEquippedStack(EquipmentSlot.FEET).getItem() == (ModMain.LONG_FALL_BOOTS);
+        return pe.getEquippedStack(EquipmentSlot.FEET).getItem() == (ModRegister.LONG_FALL_BOOTS);
     }
 
     // used for slowfly effect

@@ -30,11 +30,11 @@ public class ClShowposHud {
             return false;
 
         ItemStack boots = player.getEquippedStack(EquipmentSlot.FEET);
-        if (!(boots.getItem() == (ModMain.LONG_FALL_BOOTS))) {
+        if (!(boots.getItem() == (ModRegister.LONG_FALL_BOOTS))) {
             return false;
         }
 
-        return EnchantmentHelper.getLevel(ModMain.CL_SHOWPOS_ENCHANTMENT, boots) != 0;
+        return EnchantmentHelper.getLevel(ModRegister.CL_SHOWPOS_ENCHANTMENT, boots) != 0;
     }
 
     private static String[] getShowposString() {
