@@ -1,6 +1,5 @@
 package krzyhau.p2movement.config;
 
-import krzyhau.p2movement.ModMain;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;

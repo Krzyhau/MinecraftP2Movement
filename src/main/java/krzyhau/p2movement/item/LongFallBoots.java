@@ -1,6 +1,5 @@
 package krzyhau.p2movement.item;
 
-import krzyhau.p2movement.ModMain;
 import krzyhau.p2movement.ModRegister;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;

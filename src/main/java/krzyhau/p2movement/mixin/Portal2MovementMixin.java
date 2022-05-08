@@ -1,11 +1,10 @@
 package krzyhau.p2movement.mixin;
 
-import krzyhau.p2movement.ModMain;
 import krzyhau.p2movement.Portal2Movement;
 import krzyhau.p2movement.config.P2MovementConfig;
-import net.minecraft.entity.*;
-import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +32,7 @@ public abstract class Portal2MovementMixin extends LivingEntity {
             Portal2Movement p2Movement = new Portal2Movement();
 
             p2Movement.config = P2MovementConfig.get();
-            
+
             p2Movement.applyMovementInput(self, movementInput);
 
             Vec3d oldPos = self.getPos();
