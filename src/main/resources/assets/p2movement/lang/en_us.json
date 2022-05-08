@@ -6,7 +6,7 @@
   "text.autoconfig.p2movement.option.MAX_SPEED": "Max Speed",
   "text.autoconfig.p2movement.option.MAX_AIR_SPEED": "Max Air Speed",
   "text.autoconfig.p2movement.option.GRAVITY": "Gravity",
-  "text.autoconfig.p2movement.option.SPEED_CAP": "Speed Cap",
+  "text.autoconfig.p2movement.option.SPEED_CAP": "Velocity Cap",
   "text.autoconfig.p2movement.option.FRICTION": "Friction",
   "text.autoconfig.p2movement.option.ACCELERATE": "Accelerate",
   "text.autoconfig.p2movement.option.AIRACCELERATE": "Air Accelerate"
