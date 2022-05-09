@@ -9,5 +9,6 @@
   "text.autoconfig.p2movement.option.SPEED_CAP": "Velocity Cap",
   "text.autoconfig.p2movement.option.FRICTION": "Friction",
   "text.autoconfig.p2movement.option.ACCELERATE": "Accelerate",
-  "text.autoconfig.p2movement.option.AIRACCELERATE": "Air Accelerate"
+  "text.autoconfig.p2movement.option.AIRACCELERATE": "Air Accelerate",
+  "text.autoconfig.p2movement.title": "Portal 2 Movement Config"
 }
