@@ -1,4 +1,5 @@
-package krzyhau.p2movement;
+package krzyhau.p2movement.item.materials;
+
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Items;

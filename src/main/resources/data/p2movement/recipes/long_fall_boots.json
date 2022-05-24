@@ -1,24 +1,24 @@
-    {
-      "type": "crafting_shaped",
-      "pattern": [
-        "E",
-        "B",
-        "S"
-      ],
-      "key": {
-        "B": {
-          "item": "minecraft:iron_boots"
-        },
-        "S": {
-          "item": "minecraft:slime_block"
-        },
-        "E": {
-          "item": "minecraft:elytra"
-        }
-      },
-      "result": {
-        "item": "p2movement:long_fall_boots",
-        "count": 1
-      }
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "E",
+    "B",
+    "S"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_boots"
+    },
+    "S": {
+      "item": "minecraft:slime_block"
+    },
+    "E": {
+      "item": "minecraft:elytra"
     }
+  },
+  "result": {
+    "item": "p2movement:long_fall_boots",
+    "count": 1
+  }
+}
 

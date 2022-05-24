@@ -1,5 +1,7 @@
 package krzyhau.p2movement;
 
+import krzyhau.p2movement.item.LongFallBoots;
+import krzyhau.p2movement.item.materials.LongFallBootsMaterial;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;

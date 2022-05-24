@@ -1,20 +1,27 @@
 package krzyhau.p2movement.mixin;
 
+import krzyhau.p2movement.Portal2Movement;
+import krzyhau.p2movement.config.P2MovementConfig;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
-
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import krzyhau.p2movement.Portal2Movement;
-
 @Mixin(PlayerEntity.class)
-public class Portal2MovementMixin {
+public abstract class Portal2MovementMixin extends LivingEntity {
+
+    protected Portal2MovementMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
+    }
 
     // override travel function to allow custom movement
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
@@ -22,8 +29,11 @@ public class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
+            Portal2Movement p2Movement = new Portal2Movement();
 
-            Portal2Movement.applyMovementInput(self, movementInput);
+            p2Movement.config = P2MovementConfig.get();
+
+            p2Movement.applyMovementInput(self, movementInput);
 
             Vec3d oldPos = self.getPos();
 
@@ -43,7 +53,7 @@ public class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
-            Portal2Movement.jump(self);
+            new Portal2Movement().jump(self);
             ci.cancel();
         }
     }
@@ -54,7 +64,7 @@ public class Portal2MovementMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
 
         if (Portal2Movement.shouldUseCustomMovement(self)) {
-            if(source.isFromFalling()) {
+            if (source == DamageSource.FALL) {
                 cir.setReturnValue(true);
             }
         }
